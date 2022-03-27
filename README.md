@@ -16,5 +16,5 @@ Cela s'oppère via différents points:
 * [ ] L'ajout d'évènements à venir
     * ajout de rappels, avec des tags 
     * Tout cela peut se configurer
-* [X] Quelques sitations :)
+* [X] Quelques citations :)
 * [ ] Beaucoup plus à venir...
