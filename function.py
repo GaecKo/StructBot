@@ -54,14 +54,22 @@ def top_board():
 
 def update_mvp(pseudo, pos):
     data = access_json()
-    data[pseudo][pos] += 1
+    if pos in data[pseudo]:
+        data[pseudo][pos] += 1
+    else:
+        data[pseudo][pos] = 1
     write_json(data)
 
 def get_points(pseudo):
     data = access_json()
     player_info = data[pseudo]
     points = 0
-    points += player_info["1"] + (player_info["2"] / 2) + (player_info["3"] / 3)
+    for key, value in data[pseudo].items():
+        try:
+            key = int(key)
+            points += value / key
+        except:
+            continue
     return points 
 
 def update_kill_death_stats(kill, death, pseudo):
@@ -73,9 +81,6 @@ def update_kill_death_stats(kill, death, pseudo):
         data[pseudo] = {
             "kill" : int(kill),
             "death": int(death),
-            "1": 0,
-            "2": 0,
-            "3": 0
         }
     write_json(data)
 
@@ -102,14 +107,23 @@ def del_user(pseudo):
     
 def help():
     return """
-    Here are somme command you can use:
-    $help -> send you help
-    $quotes -> send a gaming quote
-    $kdstat `pseudo` `kills` `deaths`-> Update K/D of a player, kills and deaths must be numbers
-    $stat `pseudo` -> shows the stat of a player 
-    $delete `pseudo` -> deletes all data about a player
-    $mvpstat `pseudo` `position` -> position must be 1 or 2 or 3. add position info of a player
-    $topboard -> Shows the general top board with the known stats
-    $git -> send the git repository of this bot
+    __Here are somme command you can use:__
+    
+    **$help** ⇒ *send you help*
+    
+    **$quotes** ⇒ *send a gaming quote*
+    
+    **$kdstat / $kd `pseudo` `kills` `deaths`** ⇒ *Update K/D of a player, kills and deaths must be numbers*
+    
+    **$stat `pseudo`** ⇒ *shows the stat of a player*
+    
+    **$delete / $del `pseudo`** ⇒ *deletes all data about a player*
+    
+    **$mvpstat / $mvp `pseudo` `position`** ⇒ *position must be a number, then add position info of a player*
+    
+    **$topboard / $top** ⇒ *Shows the general top board with the known stats*
+    
+    **$git** ⇒ *Send the git repository of this bot*
+    
     """
 

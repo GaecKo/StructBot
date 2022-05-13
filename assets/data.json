@@ -1,1 +1,21 @@
-{}
+{
+    "GaecKo": {
+        "kill": 10,
+        "death": 7,
+        "4": 1
+    },
+    "Marzu": {
+        "kill": 18,
+        "death": 9,
+        "10": 2
+    },
+    "Coss": {
+        "kill": 10,
+        "death": 3
+    },
+    "bene": {
+        "kill": 0,
+        "death": 0,
+        "10": 1
+    }
+}

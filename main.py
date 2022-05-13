@@ -21,13 +21,11 @@ async def on_message(msg):
 		await msg.channel.send("Test working!")
 
 # ------- Ajout de stats MVP ------- #
-	elif msg.content.startswith("$mvpstat"):
+	elif msg.content.startswith("$mvpstat") or msg.content.startswith("$mvp"):
 		try:
 			message = msg.content.split()
 			pseudo = message[1]
 			pos = message[2]
-			if pos not in ["1", "2", "3"]:
-				await msg.channel.send("Parameters `pos` must be '1' or '2' or '3'")
 			if check_pseudo_in_data(pseudo):
 				update_mvp(pseudo, pos)
 				await msg.channel.send(f"mvp stat added for {pseudo}.\n ")
@@ -43,12 +41,12 @@ async def on_message(msg):
 
 # ------- Stats ------- #
 	elif msg.content.startswith("$stat"):
-		# try:
-		message = msg.content.split()
-		pseudo = message[1]
-		await msg.channel.send(show_stats(pseudo))
-		# except:
-		# 	await msg.channel.send("Wrong use of the command: \n $stat `pseudo`\n ")
+		try:
+			message = msg.content.split()
+			pseudo = message[1]
+			await msg.channel.send(show_stats(pseudo))
+		except:
+			await msg.channel.send("Wrong use of the command: \n $stat `pseudo`\n ")
 
 # ------- LEADERBOARD ------- #
 	elif msg.content.startswith("$topboard") or msg.content.startswith("$top"):
@@ -63,7 +61,7 @@ async def on_message(msg):
 		await msg.channel.send("Here is a little quote :) \n\n" + "`" + get_quote() + "`")
 
 # ------- Ajout de stats kill/mort ------- #
-	elif msg.content.startswith('$kdstat'):
+	elif msg.content.startswith('$kdstat') or msg.content.startswith("$kd"):
 		try:
 			message = msg.content.split()
 			pseudo = message[1]  
@@ -78,7 +76,7 @@ async def on_message(msg):
 			await msg.channel.send("Wrong use of the command: \n $kdstat `pseudo` `kills` `deaths`, kills and deaths must be numbers\n ")
 	
 # ------- Delete pseudo ------- #
-	elif msg.content.startswith('$delete'):
+	elif msg.content.startswith('$delete') or msg.content.startswith("$del"):
 		try:
 			message = msg.content.split()
 			pseudo = message[1]
@@ -91,9 +89,11 @@ async def on_message(msg):
 			await msg.channel.send("Wrong use of the command: \n $delete `pseudo`\n ")
 	
 # ------- Command not found ------- #
+	elif msg.content.startswith('$contact'):
+		await msg.channel.send("En cas de problème, merci de contacter GaecKo#7545 sur discord ou ")
+
+# ------- Command not found ------- #
 	elif msg.content.startswith('$'):
 		await msg.channel.send(f"Command {msg.content} not known, type `$help` if needed.")
 		
-
-
 client.run(os.getenv('TOKEN')) 
