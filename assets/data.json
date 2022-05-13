@@ -1,11 +1,12 @@
 {
-    "pseudo1": {
-        "kill": "x",
-        "death": "x",
-        "points": "10"
+    "andrea": {
+        "kill": 30,
+        "death": 150,
+        "points": 0
     },
-    "pseudo2": {
+    "Marzu": {
         "kill": 10,
-        "death": 5
+        "death": 0,
+        "points": 0
     }
 }

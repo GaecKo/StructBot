@@ -1,6 +1,9 @@
 import discord
 import os
 from function import *
+from dotenv import load_dotenv
+
+load_dotenv()
 client = discord.Client()
 
 
@@ -14,12 +17,29 @@ async def on_message(msg):
 	if msg.author == client.user:
 		return
 # ------- Vérificateur de fonctionnement ------- #
-	if msg.content.startswith('$test'):
+	elif msg.content.startswith('$test'):
 		await msg.channel.send("Test working!")
 	
+# ------- Help ------- #
+	elif msg.content.startswith("$help"):
+		await msg.channel.send(help())
+
+# ------- Stats ------- #
+	elif msg.content.startswith("$stat"):
+		try:
+			message = msg.content.split()
+			pseudo = message[1]
+			await msg.channel.send(show_kill_death_stats(pseudo))
+		except:
+			await msg.channel.send("Wrong use of the command: \n $stat `pseudo`\n ")
+
+# ------- Git ------- #
+	elif msg.content.startswith("$git"):
+		await msg.channel.send(f"The git repo is available here: https://github.com/GaecKo/StructBot")
+
 # ------- Envoyeur de citations ------- #
 	elif msg.content.startswith('$quotes'):
-		await msg.channel.send(str("Here is a little quote :) \n\n" + "`" + get_quote() + "`"))
+		await msg.channel.send("Here is a little quote :) \n\n" + "`" + get_quote() + "`")
 
 # ------- Ajout de stats kill/mort ------- #
 	elif msg.content.startswith('$kdstat'):
@@ -41,4 +61,5 @@ async def on_message(msg):
 	# 	if i.lower() in msg.content.lower():
 	# 		await msg.channel.send(f"{i}, sérieusement {msg.author}? nan mais t'as quoi dans la tête? Ptite merde va")
 
-client.run(os.environ['TOKEN'])
+
+client.run(os.getenv('TOKEN')) 
