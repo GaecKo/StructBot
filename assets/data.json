@@ -1,0 +1,11 @@
+{
+    "pseudo1": {
+        "kill": "x",
+        "death": "x",
+        "points": "10"
+    },
+    "pseudo2": {
+        "kill": 10,
+        "death": 5
+    }
+}
