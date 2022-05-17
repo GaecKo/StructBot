@@ -5,6 +5,12 @@ def access_json():
     with open("assets/data.json", 'r') as f:
         return json.load(f)
 
+def get_mohem():
+    base = "mohem"
+    for i in range(randint(0, 100)):
+        base += "m"
+    return base
+
 def write_json(data):
     with open("assets/data.json", 'w') as f:
         json.dump(data, f, indent=4)

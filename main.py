@@ -20,6 +20,9 @@ async def on_message(msg):
 	elif msg.content.startswith('$test'):
 		await msg.channel.send("Test working!")
 
+	elif "mohem" in msg.content:
+		await msg.channel.send(get_mohem())
+
 # ------- Ajout de stats MVP ------- #
 	elif msg.content.startswith("$mvpstat") or msg.content.startswith("$mvp"):
 		try:
