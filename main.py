@@ -1,9 +1,9 @@
 import discord
 import os
 from function import *
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 client = discord.Client()
 
 
@@ -99,4 +99,4 @@ async def on_message(msg):
 	elif msg.content.startswith('$'):
 		await msg.channel.send(f"Command {msg.content} not known, type `$help` if needed.")
 		
-client.run("OTU3NDAwNjYyNDMyNDQ0NDE2.Yj-O2Q.Dc34gM3EKnS-MeVXTPV8mpp2dHE") 
+client.run(os.getenv("TOKEN")) 
