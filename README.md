@@ -9,8 +9,8 @@ Cela s'oppère via différents points:
 * [ ] Création facile de statistique 
     * [X] Ratio Win / Loose 
     * [X] Ration Mort / Kill
-    * Création de ses propres strats
-    * *retour imagé des stats* 
+    * [ ] Création de ses propres strats
+    * [ ] *retour imagé des stats* 
 * [ ] L'ajout d'évènements éffectués
     * retour chaque semaine des activités
 * [ ] L'ajout d'évènements à venir
