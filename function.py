@@ -9,6 +9,10 @@ def get_mohem():
     base = "mohem"
     for i in range(randint(0, 100)):
         base += "m"
+
+    if randint(1, 2) == 1:
+        base += " frère"
+    
     return base
 
 def write_json(data):
