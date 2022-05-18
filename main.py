@@ -87,8 +87,25 @@ async def on_message(msg):
 				await msg.channel.send(f"Je n'ai aucune information sur {pseudo}, je ne peux donc rien supprimer.")
 		except:
 			await msg.channel.send("Wrong use of the command: \n $delete `pseudo`\n ")
-	
-# ------- Command not found ------- #
+
+# ------- Change Username ------- #
+	elif msg.content.startswith('$change'):
+		try:
+			old = msg.content.split()[1]
+			new = msg.content.split()[2]
+			if check_pseudo_in_data(old):
+				change_username(old, new)
+			else:
+				msg.channel.send(f"Aucune information sur {old}, êtes vous sûr que cet utilisateur existe?")
+		except:
+			await msg.channel.send("Wrong use of the command: \n $change `old` `new`\n ")
+
+# ------- Add Quote ------- #
+	elif msg.content.startswith('$addquote'):
+		quote = msg.content.split()[1]
+		
+
+# ------- Contact ------- #
 	elif msg.content.startswith('$contact'):
 		await msg.channel.send("En cas de problème, merci de contacter GaecKo#7545 sur discord ou ")
 

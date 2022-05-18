@@ -104,7 +104,18 @@ def del_user(pseudo):
     data = access_json()
     del data[pseudo]
     write_json(data)
-    
+
+def change_username(old, new):
+    data = access_json()
+    data[new] = data[old]
+    del data[old]
+    write_json(data)
+  
+def add_quote(quote):
+    with open("assets/quotes.txt", 'a') as f:
+        f.write(f"\n{quote}")
+
+add_quote("salut zebi")
 def help():
     return """
     __Here are somme command you can use:__
