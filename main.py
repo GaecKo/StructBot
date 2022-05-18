@@ -2,6 +2,7 @@ import discord
 import os
 from function import *
 from dotenv import load_dotenv
+from threading import Thread
 
 load_dotenv()
 client = discord.Client()
@@ -9,6 +10,9 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
+	global t
+	t = Thread(target=maintain_check_reminder())
+	
 	print(f'{client.user} has been logged in. Bot is running.')
 
 
@@ -19,6 +23,9 @@ async def on_message(msg):
 # ------- Vérificateur de fonctionnement ------- #
 	elif msg.content.startswith('$test'):
 		await msg.channel.send("Test working!")
+
+	elif "mohem" in msg.content.lower():
+		await msg.channel.send(get_mohem())
 
 # ------- Ajout de stats MVP ------- #
 	elif msg.content.startswith("$mvpstat") or msg.content.startswith("$mvp"):
@@ -38,6 +45,17 @@ async def on_message(msg):
 # ------- Help ------- #
 	elif msg.content.startswith("$help"):
 		await msg.channel.send(help())
+
+# ------- Stats ------- #
+	elif msg.content.startswith("$remind"):
+		try:
+			message = msg.content.split()
+			dat = message[1]
+			hour = message[2]
+			text = message[3]
+			add_activity(dat + " " + hour, text, msg.channel)
+		except:
+			await msg.channel.send(f"Wrong use of the command: $remind `day/month/year` `hour:min` `text`")
 
 # ------- Stats ------- #
 	elif msg.content.startswith("$stat"):
@@ -113,4 +131,5 @@ async def on_message(msg):
 	elif msg.content.startswith('$'):
 		await msg.channel.send(f"Command {msg.content} not known, type `$help` if needed.")
 		
-client.run(os.getenv('TOKEN')) 
+client.run(os.getenv("TOKEN")) 
+
