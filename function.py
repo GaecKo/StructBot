@@ -1,9 +1,69 @@
 from random import randint
 import json
+from threading import Thread
+from datetime import date, time, datetime 
+import time
 
-def access_json():
+def maintain_check_reminder():
+    while True:
+        time.sleep(1)
+        if check_activity():
+            a = check_for_activity()
+        if a != None:
+            return a
+        
+def access_reminder():
+    with open("assets/reminder.json", 'r') as f:
+        return json.load(f)
+
+def write_reminder(data):
+    with open("assets/reminder.json", 'w') as f:
+        json.dump(data, f, indent=4)
+
+def access_data():
     with open("assets/data.json", 'r') as f:
         return json.load(f)
+
+def write_data(data):
+    with open("assets/data.json", 'w') as f:
+        json.dump(data, f, indent=4)
+
+def check_activity():
+    data = access_reminder()
+    if data == {}:
+        return False
+    return True
+
+def add_activity(date, text, channel):
+    data = access_reminder()
+    if len(date.split()[0].split("/")[2]) == 4:
+        rem = datetime.strptime(date, "%d/%m/%Y %H:%M")
+    else:
+        rem = datetime.strptime(date, "%d/%m/%y %H:%M")
+    data[str(rem)] = {"text": text, "channel": channel}
+    write_reminder(data)
+
+def check_time(time_str):
+    """
+    :pre: time_str is a string like: "2022-05-18 18:00:00"
+
+    :post: return True if year/month/day hour:min correspond to current time (now)
+          return False if not
+    """
+    given = datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
+    cur = datetime.now()
+    if given.year == cur.year and given.month == cur.month and given.day == cur.day and given.hour == cur.hour and given.minute == cur.minute:
+        return True
+    return False
+    
+def check_for_activity():
+    data = access_reminder()
+    for timing, info in data.items():
+        if check_time(timing):
+            return info["channel"], info["text"]
+    return None 
+
+print(check_for_activity())
 
 def get_mohem():
     base = "mohem"
@@ -15,16 +75,13 @@ def get_mohem():
     
     return base
 
-def write_json(data):
-    with open("assets/data.json", 'w') as f:
-        json.dump(data, f, indent=4)
 
 def get_quote():
 	with open("assets/quotes.txt", encoding="utf-8") as f:
 		return f.readlines()[randint(0, 29)]
 
 def top_board():
-    data = access_json()
+    data = access_data()
     kills = []
     kill_death = []
     death = []
@@ -63,15 +120,15 @@ def top_board():
     return top_board_text
 
 def update_mvp(pseudo, pos):
-    data = access_json()
+    data = access_data()
     if pos in data[pseudo]:
         data[pseudo][pos] += 1
     else:
         data[pseudo][pos] = 1
-    write_json(data)
+    write_data(data)
 
 def get_points(pseudo):
-    data = access_json()
+    data = access_data()
     player_info = data[pseudo]
     points = 0
     for key, value in data[pseudo].items():
@@ -83,7 +140,7 @@ def get_points(pseudo):
     return points 
 
 def update_kill_death_stats(kill, death, pseudo):
-    data = access_json()
+    data = access_data()
     if pseudo in data:
         data[pseudo]["kill"] += kill
         data[pseudo]["death"] += death
@@ -92,16 +149,16 @@ def update_kill_death_stats(kill, death, pseudo):
             "kill" : int(kill),
             "death": int(death),
         }
-    write_json(data)
+    write_data(data)
 
 def check_pseudo_in_data(pseudo):
-    data = access_json()
+    data = access_data()
     if pseudo in data:
         return True
     return False
 
 def show_stats(pseudo):
-    data = access_json()
+    data = access_data()
     if pseudo in data:
         if data[pseudo]["death"] != 0:
             k_d = data[pseudo]["kill"] / data[pseudo]["death"]
@@ -111,9 +168,9 @@ def show_stats(pseudo):
     return f"Je n'ai aucune donnée sur {pseudo}. Utilisez $kdstat `kill` `death` `pseudo` pour en ajouter."
 
 def del_user(pseudo):
-    data = access_json()
+    data = access_data()
     del data[pseudo]
-    write_json(data)
+    write_data(data)
     
 def help():
     return """

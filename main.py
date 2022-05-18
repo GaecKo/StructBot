@@ -2,6 +2,7 @@ import discord
 import os
 from function import *
 from dotenv import load_dotenv
+from threading import Thread
 
 load_dotenv()
 client = discord.Client()
@@ -9,6 +10,9 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
+	global t
+	t = Thread(target=maintain_check_reminder())
+	
 	print(f'{client.user} has been logged in. Bot is running.')
 
 
@@ -41,6 +45,17 @@ async def on_message(msg):
 # ------- Help ------- #
 	elif msg.content.startswith("$help"):
 		await msg.channel.send(help())
+
+# ------- Stats ------- #
+	elif msg.content.startswith("$remind"):
+		try:
+			message = msg.content.split()
+			dat = message[1]
+			hour = message[2]
+			text = message[3]
+			add_activity(dat + " " + hour, text, msg.channel)
+		except:
+			await msg.channel.send(f"Wrong use of the command: $remind `day/month/year` `hour:min` `text`")
 
 # ------- Stats ------- #
 	elif msg.content.startswith("$stat"):
@@ -100,3 +115,4 @@ async def on_message(msg):
 		await msg.channel.send(f"Command {msg.content} not known, type `$help` if needed.")
 		
 client.run(os.getenv("TOKEN")) 
+
