@@ -143,7 +143,7 @@ def get_points(pseudo):
             points += value / key
         except:
             continue
-    return points 
+    return round(points, 2) 
 
 def update_kill_death_stats(kill, death, pseudo):
     data = access_data()

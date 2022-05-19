@@ -74,7 +74,7 @@ async def mvp(ctx, *, msg):
 @bot.command(name="kd", aliases=["kdstat"])
 async def kill_death(ctx, *, msg):
 	try:
-		message = msg.content.split()
+		message = msg.split()
 		pseudo = message[0]  
 		kill = int(message[1])  
 		death = int(message[2]) 
