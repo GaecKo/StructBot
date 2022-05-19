@@ -94,7 +94,7 @@ async def remind(ctx, *, msg):
 		print(msg)
 		dat = message[0]
 		hour = message[1]
-		text = message[2:]
+		text = ' '.join(message[2:])
 		date = dat + " " + hour
 		add_activity(date, text, ctx.channel.id)
 		await start_event_check()
@@ -106,18 +106,17 @@ async def schedule_daily_message(time_str, text, channel):
 	channel = bot.get_channel(channel)
 	now = datetime.now()
 	if now > given:
-		channel.send(f"An event passed while the bot was offline: \nInitial Time: `{time_str}`, \n Text:\n >>> {text}")
+		await channel.send(f"An event passed while the bot was offline: \nInitial Time: `{time_str}`, \n Text:\n >>> {text}")
 		delete_event(text)
 	else:
 		wait_time = (given-now).total_seconds()
 		await asyncio.sleep(wait_time)
-		await channel.send(f"Reminder:\n>>>{text}")
+		await channel.send(f"Reminder:\n >>> {text}")
 		delete_event(text)
 
 # ------- GET STATS ------- #
 @bot.command(name='stat', aliases=["getstat"])
 async def stat(ctx, *, msg):
-	print("in")
 	try:
 		message = msg.split()
 		pseudo = message[0]
@@ -186,8 +185,8 @@ async def contact(ctx):
 async def shutdown(ctx):
 	maintain_reminder()
 	end = datetime.now()
-	diff = (end-start)
-	await ctx.send(f"{bot.user} is shutting down...\nTotal run: {str(diff)}")
+	diff = (end-start).total_seconds()
+	await ctx.send(f"{bot.user} is shutting down...\nTotal run: {round(diff, 2)} seconds")
 
 	sys.exit()
 
