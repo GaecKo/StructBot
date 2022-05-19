@@ -9,14 +9,6 @@ def test_channel(channel):
     write_reminder(data)
     data = access_reminder()
     return data["channel"]
-
-def maintain_check_reminder():
-    while True:
-        time.sleep(1)
-        if check_activity():
-            a = check_for_activity()
-        if a != None:
-            return a
         
 def access_reminder():
     with open("assets/reminder.json", 'r') as f:
@@ -44,34 +36,41 @@ def check_activity():
         return False
     return True
 
+def delete_event(text):
+    data = access_reminder()
+    for key, info in data.items():
+        if info["text"] == text:
+            del data[key]
+            write_reminder(data)
+            return
+
+def get_list_event():
+    data = access_reminder()
+    time, text, channel = [], [], []
+    for key, info in data.items():
+        if info["in_memory"] == True:
+            continue
+        time.append(key)
+        text.append(info["text"])
+        channel.append(info["channel"])
+        data[key]["in_memory"] = True
+    write_reminder(data)
+    return time, text, channel
+
 def add_activity(date, text, channel):
     data = access_reminder()
     if len(date.split()[0].split("/")[2]) == 4:
         rem = datetime.strptime(date, "%d/%m/%Y %H:%M")
     else:
         rem = datetime.strptime(date, "%d/%m/%y %H:%M")
-    data[str(rem)] = {"text": text, "channel": channel}
+    data[str(rem)] = {"text": text, "channel": channel, "in_memory": False}
     write_reminder(data)
 
-def check_time(time_str):
-    """
-    :pre: time_str is a string like: "2022-05-18 18:00:00"
-
-    :post: return True if year/month/day hour:min correspond to current time (now)
-          return False if not
-    """
-    given = datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
-    cur = datetime.now()
-    if given.year == cur.year and given.month == cur.month and given.day == cur.day and given.hour == cur.hour and given.minute == cur.minute:
-        return True
-    return False
-    
-def check_for_activity():
+def maintain_reminder():
     data = access_reminder()
-    for timing, info in data.items():
-        if check_time(timing):
-            return info["channel"], info["text"]
-    return None 
+    for key, value in data.items():
+        value["in_memory"] = False
+    write_reminder(data)  
 
 def get_mohem():
     base = "mohem"
