@@ -4,6 +4,12 @@ from threading import Thread
 from datetime import date, time, datetime 
 import time
 
+def test_channel(channel):
+    data = {"channel": channel}
+    write_reminder(data)
+    data = access_reminder()
+    return data["channel"]
+
 def maintain_check_reminder():
     while True:
         time.sleep(1)
@@ -27,6 +33,10 @@ def access_data():
 def write_data(data):
     with open("assets/data.json", 'w') as f:
         json.dump(data, f, indent=4)
+
+def add_quote(quote):
+    with open("assets/quotes.txt", "a") as f:
+        f.write(f"\n{quote}")
 
 def check_activity():
     data = access_reminder()
@@ -63,8 +73,6 @@ def check_for_activity():
             return info["channel"], info["text"]
     return None 
 
-print(check_for_activity())
-
 def get_mohem():
     base = "mohem"
     for i in range(randint(0, 100)):
@@ -74,7 +82,6 @@ def get_mohem():
         base += " frère"
     
     return base
-
 
 def get_quote():
 	with open("assets/quotes.txt", encoding="utf-8") as f:
@@ -174,23 +181,51 @@ def del_user(pseudo):
     
 def help():
     return """
-    __Here are somme command you can use:__
+__Here are some command you can use:__
+
+1) __Easy Start-up__:
     
-    **$help** ⇒ *send you help*
+    **$test** ⇒ *Check if the bot is running*
+
+    **$help** ⇒ *Send you help*
     
-    **$quotes** ⇒ *send a gaming quote*
-    
+2) __Stats__:
+
     **$kdstat / $kd `pseudo` `kills` `deaths`** ⇒ *Update K/D of a player, kills and deaths must be numbers*
     
-    **$stat `pseudo`** ⇒ *shows the stat of a player*
-    
-    **$delete / $del `pseudo`** ⇒ *deletes all data about a player*
-    
-    **$mvpstat / $mvp `pseudo` `position`** ⇒ *position must be a number, then add position info of a player*
-    
+    **$mvpstat / $mvp `pseudo` `position`** ⇒ *Position must be a number, then add position info of a player*
+
+    **$stat `pseudo`** ⇒ *Shows the stat of a player*
+
     **$topboard / $top** ⇒ *Shows the general top board with the known stats*
     
+3) __Reminder__:
+
+    **$remind  `day/month/year` `hour:min` `text to send`** ⇒ *Add a reminder at that date, it will send the given text*
+
+4) __User Management__:
+
+    **$delete / $del `pseudo`** ⇒ *Deletes all data about a player*
+
+    **$username `old` `new`** ⇒ *Change the old username by the new one in the data* 
+    
+5) __Quotes__:
+
+    **$quotes** ⇒ *Send a gaming quote*
+    
+    **$addquote `quote`** ⇒ *Add the quote in the quotes list*
+
+6) __Others__:
+
     **$git** ⇒ *Send the git repository of this bot*
     
+    **$contact** ⇒ *Send contact if needed of the creator*
+
     """
 
+def change_username(old, new):
+    data = access_data()
+    to_change = data[old]
+    data[new] = to_change
+    del data[old]
+    write_data(data)
