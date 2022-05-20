@@ -28,14 +28,14 @@ bot = commands.Bot(command_prefix='$', help_command=CustomHelpCommand())
 async def on_ready():
 	global start
 	start = datetime.now()
-	await start_event_check()
 	print(f'{bot.user} has been logged in. Bot is running.')
+	await start_event_check()
 
 async def start_event_check():
 	if check_activity():
 		time, text, channel = get_list_event()
 		for i in range(len(time)):
-			await schedule_daily_message(time[i], text[i], channel[i])
+			await start_event_waiter(time[i], text[i], channel[i])
 		
 @bot.event
 async def on_message(msg):
@@ -89,17 +89,18 @@ async def kill_death(ctx, *, msg):
 async def remind(ctx, *, msg):
 	try:
 		message = msg.split()
-		print(msg)
 		dat = message[0]
 		hour = message[1]
 		text = ' '.join(message[2:])
 		date = dat + " " + hour
 		add_activity(date, text, ctx.channel.id)
+		await ctx.send(f"Event has been added successfully, it will be send on `{date.split()[0]} at {date.split()[1]}`.")
 		await start_event_check()
+		
 	except:
 		await ctx.send(f"Wrong use of the command: $remind `day/month/year` `hour:min` `text`")
 
-async def schedule_daily_message(time_str, text, channel):
+async def start_event_waiter(time_str, text, channel):
 	given = datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
 	channel = bot.get_channel(channel)
 	now = datetime.now()
@@ -109,7 +110,7 @@ async def schedule_daily_message(time_str, text, channel):
 	else:
 		wait_time = (given-now).total_seconds()
 		await asyncio.sleep(wait_time)
-		await channel.send(f"Reminder:\n >>> {text}")
+		await channel.send(f"__REMINDER__:\n >>> {text}")
 		delete_event(text)
 
 # ------- GET STATS ------- #

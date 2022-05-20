@@ -22,4 +22,4 @@ Cela s'oppère via différents points:
 ****
 ## Status
 Avancée:
-   ▰▰▰▰▰▱▱▱▱▱ 50%
+   ▰▰▰▰▰▰▰▱▱▱ 70%

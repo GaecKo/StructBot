@@ -43,6 +43,7 @@ def delete_event(text):
             del data[key]
             write_reminder(data)
             return
+    raise ValueError
 
 def get_list_event():
     data = access_reminder()
