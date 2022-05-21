@@ -1,9 +1,8 @@
 from discord.ext import commands
-import os
 from function import *
+from keep_alive import keep_alive
 from dotenv import load_dotenv
-import asyncio
-import sys
+import asyncio, sys, os
 
 load_dotenv()
 
@@ -43,8 +42,7 @@ async def on_message(msg):
 		return
 	elif "mohem" in msg.content.lower():
 		await msg.channel.send(get_mohem())
-	else:
-		await bot.process_commands(msg)
+	await bot.process_commands(msg)
 
 # ------- WORKING TEST ------- #
 @bot.command(name='test')
@@ -94,6 +92,7 @@ async def remind(ctx, *, msg):
 		text = ' '.join(message[2:])
 		date = dat + " " + hour
 		add_activity(date, text, ctx.channel.id)
+		sort_reminder()
 		await ctx.send(f"Event has been added successfully, it will be send on `{date.split()[0]} at {date.split()[1]}`.")
 		await start_event_check()
 		
@@ -189,4 +188,5 @@ async def shutdown(ctx):
 
 	sys.exit()
 
+keep_alive()
 bot.run(os.getenv("TOKEN")) 

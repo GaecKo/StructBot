@@ -87,6 +87,20 @@ def get_quote():
 	with open("assets/quotes.txt", encoding="utf-8") as f:
 		return f.readlines()[randint(0, 29)]
 
+def sort_reminder():
+    event = []
+    data = access_reminder()
+    for key, value in data.items():
+        date = datetime.strptime(key, "%Y-%m-%d %H:%M:%S")
+        event.append([date, value])
+    event.sort(key=lambda x: x[0], reverse=False)
+    new_data = {}
+    for i in range(len(event)):
+        new_data[str(event[i][0])] = event[i][1]
+
+    write_reminder(new_data)
+
+
 def top_board():
     data = access_data()
     kills = []
