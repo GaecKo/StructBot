@@ -3,7 +3,7 @@ from assets.activities import *
 from assets.reminder import *
 from assets.quotes import *
 from assets.stats import * 
-from assets.keep_alive import keep_alive
+from app_utilities.keep_alive import keep_alive
 import asyncio, sys, os
 
 # | from dotenv import load_dotenv # to use if on windows/linux, but not on repl.it
@@ -181,7 +181,7 @@ async def quotes_add(ctx, *, msg):
 async def contact(ctx):
 	await ctx.send("In case of trouble, don't hesitate to contact the creator: GaecKo#7545")
 
-# ------- CONTACT ------- #
+# ------- SHUTDOWN ------- #
 @bot.command(name="shutdown")
 async def shutdown(ctx):
 	maintain_reminder()
