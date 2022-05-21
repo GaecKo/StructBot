@@ -1,8 +1,5 @@
-from random import randint
 import json
-from threading import Thread
-from datetime import date, time, datetime 
-import time
+from datetime import datetime 
 
 def access_reminder():
     with open("assets/files/reminder.json", 'r') as f:

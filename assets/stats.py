@@ -1,8 +1,4 @@
-from random import randint
 import json
-from threading import Thread
-from datetime import date, time, datetime 
-import time
 
 def access_data():
     with open("assets/files/data.json", 'r') as f:

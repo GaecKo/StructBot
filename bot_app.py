@@ -1,13 +1,13 @@
 from discord.ext import commands
-from assets/activities import * 
-from assets/reminder import *
-from assets/quotes import *
-from assets/stats import * 
-from keep_alive import keep_alive
-# from dotenv import load_dotenv # to use if on windows/linux, but not on repl.it
+from assets.activities import * 
+from assets.reminder import *
+from assets.quotes import *
+from assets.stats import * 
+from assets.keep_alive import keep_alive
 import asyncio, sys, os
 
-# load_dotenv()
+# | from dotenv import load_dotenv # to use if on windows/linux, but not on repl.it
+# | load_dotenv() # to use if on windows/linux, but not on repl.it
 
 # ------- HELP ------- #
 class CustomHelpCommand(commands.HelpCommand):

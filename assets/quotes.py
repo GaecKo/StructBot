@@ -1,8 +1,4 @@
 from random import randint
-import json
-from threading import Thread
-from datetime import date, time, datetime 
-import time
 
 def add_quote(quote):
     with open("assets/files/quotes.txt", "a") as f:

@@ -1,10 +1,6 @@
-from random import randint
 import json
-from threading import Thread
-from datetime import date, time, datetime 
-import time
 
-def access_activities() 
+def access_activities():
     with open("assets/files/activities.json", 'r') as f:
         return json.load(f)
 
