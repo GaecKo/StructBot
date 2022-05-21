@@ -28,8 +28,9 @@ class CustomHelpCommand(commands.HelpCommand):
 bot = commands.Bot(command_prefix='$', help_command=CustomHelpCommand())
 @bot.event
 async def on_ready():
-	global start
+    global start
 	start = datetime.now()
+    maintain_reminder()
 	print(f'{bot.user} has been logged in. Bot is running.')
 	await start_event_check()
 
