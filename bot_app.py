@@ -1,10 +1,13 @@
 from discord.ext import commands
-from function import *
+from assets/activities import * 
+from assets/reminder import *
+from assets/quotes import *
+from assets/stats import * 
 from keep_alive import keep_alive
-from dotenv import load_dotenv
+# from dotenv import load_dotenv # to use if on windows/linux, but not on repl.it
 import asyncio, sys, os
 
-load_dotenv()
+# load_dotenv()
 
 # ------- HELP ------- #
 class CustomHelpCommand(commands.HelpCommand):
@@ -185,8 +188,47 @@ async def shutdown(ctx):
 	end = datetime.now()
 	diff = (end-start).total_seconds()
 	await ctx.send(f"{bot.user} is shutting down...\nTotal run: {round(diff, 2)} seconds")
-
 	sys.exit()
 
+# ------- HELP ------- #
+def help():
+    return """
+__Here are some command you can use:__
+
+1) __Easy Start-up__:
+    
+    **$test** ⇒ *Check if the bot is running*
+    **$help** ⇒ *Send you help*
+    
+2) __Stats__:
+
+    **$kdstat / $kd `pseudo` `kills` `deaths`** ⇒ *Update K/D of a player, kills and deaths must be numbers*
+    **$mvpstat / $mvp `pseudo` `position`** ⇒ *Position must be a number, then add position info of a player*
+    **$stat `pseudo`** ⇒ *Shows the stat of a player*
+    **$topboard / $top** ⇒ *Shows the general top board with the known stats*
+    
+3) __Reminder__:
+
+    **$remind  `day/month/year` `hour:min` `text to send`** ⇒ *Add a reminder at that date, it will send the given text*
+
+4) __User Management__:
+
+    **$delete / $del `pseudo`** ⇒ *Deletes all data about a player*
+    **$username `old` `new`** ⇒ *Change the old username by the new one in the data* 
+    
+5) __Quotes__:
+
+    **$quotes** ⇒ *Send a gaming quote*
+    **$addquote `quote`** ⇒ *Add the quote in the quotes list*
+
+6) __Others__:
+
+    **$git** ⇒ *Send the git repository of this bot*
+    **$contact** ⇒ *Send contact if needed of the creator*
+    """
+
+
+
 keep_alive()
-bot.run(os.getenv("TOKEN")) 
+# bot.run(os.getenv("TOKEN")) 
+bot.run(os.environ["TOKEN"]) 
