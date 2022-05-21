@@ -49,7 +49,7 @@ async def nom_commande(ctx, *, msg):
 ```py
 @bot.event
 async def on_ready():
-    # s'active quand le bot est près
+    # s'active quand le bot est prêt
     # ...
     # ...
 
