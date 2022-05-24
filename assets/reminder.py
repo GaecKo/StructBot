@@ -2,11 +2,11 @@ import json
 from datetime import datetime 
 
 def access_reminder():
-    with open("assets/files/reminder.json", 'r') as f:
+    with open("files/reminder.json", 'r') as f:
         return json.load(f)
 
 def write_reminder(data):
-    with open("assets/files/reminder.json", 'w') as f:
+    with open("files/reminder.json", 'w') as f:
         json.dump(data, f, indent=4)
 
 def check_activity():

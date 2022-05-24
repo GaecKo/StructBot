@@ -1,11 +1,11 @@
 import json
 
 def access_data():
-    with open("assets/files/data.json", 'r') as f:
+    with open("files/data.json", 'r') as f:
         return json.load(f)
 
 def write_data(data):
-    with open("assets/files/data.json", 'w') as f:
+    with open("files/data.json", 'w') as f:
         json.dump(data, f, indent=4)
 
 def top_board():

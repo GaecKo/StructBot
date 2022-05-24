@@ -5,6 +5,7 @@ from assets.quotes import *
 from assets.stats import * 
 from app_utilities.keep_alive import keep_alive
 import asyncio, sys, os
+from pytz import timezone
 
 # | from dotenv import load_dotenv # to use if on windows/linux, but not on repl.it
 # | load_dotenv() # to use if on windows/linux, but not on repl.it
@@ -105,8 +106,10 @@ async def remind(ctx, *, msg):
 
 async def start_event_waiter(time_str, text, channel):
     given = datetime.strptime(time_str, "%Y-%m-%d %H:%M:%S")
+    timezone = timezone('Europe/Brussels')
+    given = timezone.localize(given)
     channel = bot.get_channel(channel)
-    now = datetime.now()
+    now = datetime.now(timezone('Europe/Brussels')) 
     if now > given:
         await channel.send(f"An event passed while the bot was offline: \nInitial Time: `{time_str}`, \n Text:\n >>> {text}")
         delete_event(text)
@@ -115,6 +118,23 @@ async def start_event_waiter(time_str, text, channel):
         await asyncio.sleep(wait_time)
         await channel.send(f"__REMINDER__:\n >>> {text}")
         delete_event(text)
+
+# ------- ADD MATCH ------- #
+@bot.command(name="match", aliases=["match", "addmatch"])
+async def match(ctx, *, msg):
+    # $match `team` `result` `note(optionnal)`
+    try:
+        message = msg.split()
+        team = message[0]
+        result = message[1]
+        if len(message) == 3:
+            note = message[2]
+        add_match(result, team, note)
+        await ctx.send(f"Match has been addded successfully, to check week activities type `$summary`")
+    except:
+        await ctx.send(f"Wrong use of command: \n $match `team` `result` `note(optionnal)`")
+    
+    pass
 
 # ------- GET STATS ------- #
 @bot.command(name='stat', aliases=["getstat"])

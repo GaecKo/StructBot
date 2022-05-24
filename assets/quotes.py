@@ -1,7 +1,7 @@
 from random import randint
 
 def add_quote(quote):
-    with open("assets/files/quotes.txt", "a") as f:
+    with open("files/quotes.txt", "a") as f:
         f.write(f"\n{quote}")
 
 def get_mohem():
@@ -13,5 +13,5 @@ def get_mohem():
     return base
 
 def get_quote():
-	with open("assets/quotes.txt", encoding="utf-8") as f:
+	with open("files/quotes.txt", encoding="utf-8") as f:
 		return f.readlines()[randint(0, len(f.readlines()))]
