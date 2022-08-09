@@ -1,22 +1,3 @@
 {
-    "Andrea": {
-        "kill": 0,
-        "death": 9
-    },
-    "Arthur": {
-        "kill": 9,
-        "death": 0,
-        "1": 1
-    },
-    "Marzu": {
-        "kill": 10,
-        "death": 10,
-        "3": 1,
-        "4": 1
-    },
-    "Alex": {
-        "kill": 2,
-        "death": 10,
-        "2": 1
-    }
+
 }
